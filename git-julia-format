@@ -22,7 +22,7 @@ default_file_cb(delta::LibGit2.DiffDelta, _1, _2) = Int32(0)
 default_binary_cb(delta::LibGit2.DiffDelta, _1, _2) = Int32(0)
 
 # int git_diff_foreach(git_diff *diff, git_diff_file_cb file_cb, git_diff_binary_cb binary_cb, git_diff_hunk_cb hunk_cb, git_diff_line_cb line_cb, void *payload);
-function git_diff_foreach(diff; file_cb=default_file_cb, binary_cb=default_binary_cb, hunk_cb=C_NULL, line_cb=C_NULL, payload=C_NULL)
+function git_diff_foreach(diff; file_cb = default_file_cb, binary_cb = default_binary_cb, hunk_cb = C_NULL, line_cb = C_NULL, payload = C_NULL)
     file_cb = @cfunction($file_cb, Cint, (Ref{LibGit2.DiffDelta}, Ptr{Cvoid}, Ptr{Cvoid}))
     binary_cb = @cfunction($binary_cb, Cint, (Ref{LibGit2.DiffDelta}, Ptr{Cvoid}, Ptr{Cvoid}))
     if hunk_cb != C_NULL
@@ -44,12 +44,12 @@ end
 const GIT_DIFF_HUNK_HEADER_SIZE	= 128
 
 struct GitDiffHunk
-	old_start::Cint     # /**< Starting line number in old_file */
-	old_lines::Cint     # /**< Number of lines in old_file */
-	new_start::Cint     # /**< Starting line number in new_file */
-	new_lines::Cint     # /**< Number of lines in new_file */
-	header_len::Csize_t    # /**< Number of bytes in header text */
-	header::NTuple{GIT_DIFF_HUNK_HEADER_SIZE, UInt8}   # /**< Header text, NUL-byte terminated */
+   	old_start::Cint     # /**< Starting line number in old_file */
+   	old_lines::Cint     # /**< Number of lines in old_file */
+   	new_start::Cint     # /**< Starting line number in new_file */
+   	new_lines::Cint     # /**< Number of lines in new_file */
+   	header_len::Csize_t    # /**< Number of bytes in header text */
+   	header::NTuple{GIT_DIFF_HUNK_HEADER_SIZE,UInt8}   # /**< Header text, NUL-byte terminated */
 end
 
 # ========================================================
@@ -85,8 +85,8 @@ function document_format_diff_hunk(delta::LibGit2.DiffDelta,
     hunk_start += offset
     hunk_end += offset
 
-    toformat_lines = new_file_lines[hunk_start : hunk_end]
-    toformat = join(new_file_lines[hunk_start : hunk_end], "\n")
+    toformat_lines = new_file_lines[hunk_start:hunk_end]
+    toformat = join(new_file_lines[hunk_start:hunk_end], "\n")
 
     formatted = DocumentFormat.format(toformat)
 
@@ -99,7 +99,7 @@ function document_format_diff_hunk(delta::LibGit2.DiffDelta,
         offsets[new_filename] = offset
     end
 
-    outlines = vcat(new_file_lines[1:hunk_start-1], formatted_lines, new_file_lines[hunk_end+1:end])
+    outlines = vcat(new_file_lines[1:hunk_start - 1], formatted_lines, new_file_lines[hunk_end + 1:end])
 
     write(new_filename, join(outlines, "\n"))
 
