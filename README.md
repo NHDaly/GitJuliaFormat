@@ -12,7 +12,7 @@ Add the executable script `git-julia-format` to somewhere visible in your `PATH`
    
 ## Usage
 
-From within a `git` repository, run `git julia-format`, and it will modify your files in-place, running `DocumentFormat.format()` on the modified lines.
+From within a `git` repository, run `git julia-format`, and it will modify your files in-place, running [`DocumentFormat.format()`](https://github.com/julia-vscode/DocumentFormat.jl) on the modified lines.
 
 ## Warning
 
